@@ -1,5 +1,6 @@
 package org.lilystudio.smarty4j.expression;
 
+import java.io.Writer;
 import java.util.Map;
 
 import org.lilystudio.smarty4j.Template;
@@ -48,5 +49,10 @@ public class TranslateObject extends ObjectExpression {
   
   public void parseSelf(MethodVisitor mw, int local, Map<String, Integer> variableNames) {
     exp.parseObject(mw, local, variableNames);
+  }
+
+  @Override
+  public void transform(Writer out) throws Exception {
+    exp.transform(out);
   }
 }

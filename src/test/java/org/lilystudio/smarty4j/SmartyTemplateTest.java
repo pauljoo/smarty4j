@@ -49,4 +49,16 @@ public class SmartyTemplateTest extends TestCase {
         template.merge(context, out);
         System.out.println(out.toString("GBK"));
     }
+
+    /**
+     * test to render smarty template
+     *
+     * @throws Exception exception
+     */
+    public void testTransform() throws Exception {
+        Template template = smartyEngine.getTemplate("demo.tpl");
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        template.transform(out);
+        System.out.println(out.toString("GBK"));
+    }
 }

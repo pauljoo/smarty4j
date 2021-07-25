@@ -1,5 +1,6 @@
 package org.lilystudio.smarty4j.statement;
 
+import java.io.Writer;
 import java.util.Map;
 
 import org.lilystudio.smarty4j.Template;
@@ -39,5 +40,10 @@ public class DebugStatement implements IStatement {
     Label line = new Label();
     mw.visitLabel(line);
     mw.visitLineNumber(lineNumber, line);
+  }
+
+  @Override
+  public void transform(Writer out) throws Exception {
+
   }
 }

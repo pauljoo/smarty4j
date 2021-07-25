@@ -2,6 +2,7 @@ package org.lilystudio.smarty4j.expression;
 
 import static org.objectweb.asm.Opcodes.*;
 
+import java.io.Writer;
 import java.util.Map;
 
 import org.objectweb.asm.Label;
@@ -74,5 +75,10 @@ public class StringExpression extends ObjectExpression {
 
   public void parseSelf(MethodVisitor mw, int local, Map<String, Integer> variableNames) {
     mw.visitLdcInsn(value);
+  }
+
+  @Override
+  public void transformSelf(Writer out) throws Exception {
+    out.write(value);
   }
 }

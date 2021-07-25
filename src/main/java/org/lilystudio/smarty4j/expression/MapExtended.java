@@ -2,6 +2,7 @@ package org.lilystudio.smarty4j.expression;
 
 import static org.objectweb.asm.Opcodes.*;
 
+import java.io.Writer;
 import java.util.Map;
 
 import org.lilystudio.smarty4j.Template;
@@ -83,5 +84,10 @@ public class MapExtended implements IExtended {
 
   public void scan(Template template) {
     key.scan(template);
+  }
+
+  @Override
+  public void transform(Writer out) throws Exception {
+    key.transform(out);
   }
 }

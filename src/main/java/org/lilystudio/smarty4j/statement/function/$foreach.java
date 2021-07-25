@@ -2,6 +2,7 @@ package org.lilystudio.smarty4j.statement.function;
 
 import static org.objectweb.asm.Opcodes.*;
 
+import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
@@ -308,5 +309,21 @@ public class $foreach extends Block implements ILoop {
         variableNames.put(key.toString(), oldKeyValue);
       }
     }
+  }
+
+  @Override
+  public void transform(Writer out) throws Exception {
+    IExpression item = getParameter(1);
+    out.write("<#list ");
+    getParameter(0).transform(out);
+    out.write(" as ");
+    out.write(item.toString());
+    out.write(">");
+    if (children != null) {
+      for (IStatement child : children) {
+        child.transform(out);
+      }
+    }
+    out.write("</#list>");
   }
 }

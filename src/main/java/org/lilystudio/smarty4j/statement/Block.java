@@ -1,19 +1,15 @@
 package org.lilystudio.smarty4j.statement;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.lilystudio.smarty4j.Analyzer;
-import org.lilystudio.smarty4j.Engine;
-import org.lilystudio.smarty4j.Operation;
-import org.lilystudio.smarty4j.ParseException;
-import org.lilystudio.smarty4j.Template;
-import org.lilystudio.smarty4j.TemplateReader;
+import org.lilystudio.smarty4j.*;
 import org.lilystudio.smarty4j.expression.IExpression;
 import org.lilystudio.smarty4j.expression.ObjectExpression;
 import org.objectweb.asm.MethodVisitor;
+
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 区块函数语句节点虚基类，区块函数指的是函数内部包含其它函数或文本，需要拥有结束标签的函数，
@@ -182,6 +178,14 @@ public abstract class Block extends Function implements IBlockFunction {
     if (children != null) {
       for (IStatement child : children) {
         child.parse(mw, local, variableNames);
+      }
+    }
+  }
+
+  public void transform(Writer out) throws Exception{
+    if (children != null) {
+      for (IStatement child : children) {
+        child.transform(out);
       }
     }
   }

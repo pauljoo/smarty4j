@@ -1,13 +1,14 @@
 package org.lilystudio.smarty4j.expression;
 
-import static org.objectweb.asm.Opcodes.*;
+import org.lilystudio.smarty4j.Template;
+import org.objectweb.asm.MethodVisitor;
 
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.lilystudio.smarty4j.Template;
-import org.objectweb.asm.MethodVisitor;
+import static org.objectweb.asm.Opcodes.INVOKESTATIC;
 
 /**
  * 对象表达式节点, 向JVM语句栈内放入对象
@@ -165,4 +166,19 @@ public abstract class ObjectExpression implements IExpression {
   
   public abstract void parseSelf(MethodVisitor mw, int local,
       Map<String, Integer> variableNames);
+
+  public void transform(Writer out) throws Exception{
+    transformSelf(out);
+    // 展开扩展访问的操作代码
+    if (extendeds != null) {
+      for (IExtended extended : extendeds) {
+        out.write(".");
+        extended.transform(out);
+      }
+    }
+  }
+
+  public void transformSelf(Writer out) throws Exception{
+    System.out.println("ObjectExpression#transformSelf："  + this.getClass().getName());
+  }
 }

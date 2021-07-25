@@ -1,27 +1,22 @@
 package org.lilystudio.smarty4j;
 
-import static org.lilystudio.smarty4j.INode.*;
-import static org.objectweb.asm.ClassWriter.*;
-import static org.objectweb.asm.Opcodes.*;
+import org.lilystudio.smarty4j.statement.Document;
+import org.lilystudio.util.DynamicClassLoader;
+import org.lilystudio.util.StringReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.lilystudio.smarty4j.statement.Document;
-import org.lilystudio.util.DynamicClassLoader;
-import org.lilystudio.util.StringReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
+import static org.lilystudio.smarty4j.INode.*;
+import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
+import static org.objectweb.asm.ClassWriter.COMPUTE_MAXS;
+import static org.objectweb.asm.Opcodes.*;
 
 /**
  * 模板信息类，记录模板文件的来源，时间等基本信息，内置模板解析器的实现接口，
@@ -334,6 +329,15 @@ public class Template {
   public void merge(Context context, Writer out) {
     context.setTemplate(this);
     parser.merge(context, out);
+  }
+
+  public void transform(OutputStream out) throws Exception {
+    Writer writer = new TemplateWriter(out, engine.getEncoding());
+    try {
+      doc.transform(writer);
+    } finally {
+      writer.flush();
+    }
   }
 
   /**

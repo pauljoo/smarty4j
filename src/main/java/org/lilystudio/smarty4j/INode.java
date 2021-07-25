@@ -1,8 +1,9 @@
 package org.lilystudio.smarty4j;
 
-import java.util.Map;
-
 import org.objectweb.asm.MethodVisitor;
+
+import java.io.Writer;
+import java.util.Map;
 
 /**
  * 节点操作接口，Smarty模板在解析过程中将输入文本构建成一个节点树，最顶层的就是文档节点，
@@ -54,4 +55,8 @@ public interface INode {
    *          需要缓存的变量名集合
    */
   void parse(MethodVisitor mw, int local, Map<String, Integer> variableNames);
+
+  default void transform(Writer out) throws Exception{
+    System.out.println("INode#transform：" + this.getClass().getName());
+  }
 }

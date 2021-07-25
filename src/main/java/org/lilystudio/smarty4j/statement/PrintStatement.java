@@ -2,6 +2,7 @@ package org.lilystudio.smarty4j.statement;
 
 import static org.objectweb.asm.Opcodes.*;
 
+import java.io.Writer;
 import java.util.Map;
 
 import org.lilystudio.smarty4j.Template;
@@ -41,5 +42,12 @@ public class PrintStatement implements IStatement {
     expression.parseString(mw, local, variableNames);
     mw.visitMethodInsn(INVOKEVIRTUAL, "java/io/Writer", "write",
         "(Ljava/lang/String;)V");
+  }
+
+  @Override
+  public void transform(Writer out) throws Exception {
+    out.write("${");
+    expression.transform(out);
+    out.write("}");
   }
 }

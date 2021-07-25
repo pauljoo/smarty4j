@@ -2,6 +2,7 @@ package org.lilystudio.smarty4j.expression;
 
 import static org.objectweb.asm.Opcodes.*;
 
+import java.io.Writer;
 import java.util.Map;
 
 import org.lilystudio.smarty4j.Context;
@@ -51,5 +52,10 @@ public class VariableExpression extends ObjectExpression {
       mw.visitMethodInsn(INVOKEVIRTUAL, Context.NAME, "get",
           "(Ljava/lang/String;)Ljava/lang/Object;");
     }
+  }
+
+  @Override
+  public void transformSelf(Writer out) throws Exception {
+    out.write(name);
   }
 }
